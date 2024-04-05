@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split("")
+ALLOWED_HOSTS =[]# os.environ.get("ALLOWED_HOSTS").split("")
 
 
 # Application definition
@@ -91,9 +91,9 @@ DATABASES = {
     }
 }
 
-database_url =os.environ.get("DATABASE_URL")
-# Replace the SQLite DATABASES configuration with PostgreSQL:
-DATABASES["default"] = dj_database_url.parse("postgres://loanlink_db_user:TEFsdPfuv7JzPEIcGfihbjyjxBLqKG7n@dpg-co7q5un79t8c73ent4rg-a.oregon-postgres.render.com/loanlink_db")
+# database_url =os.environ.get("DATABASE_URL")
+# # Replace the SQLite DATABASES configuration with PostgreSQL:
+# DATABASES["default"] = dj_database_url.parse("postgres://loanlink_db_user:TEFsdPfuv7JzPEIcGfihbjyjxBLqKG7n@dpg-co7q5un79t8c73ent4rg-a.oregon-postgres.render.com/loanlink_db")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
