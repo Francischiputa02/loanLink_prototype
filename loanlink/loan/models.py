@@ -1,0 +1,102 @@
+from django.db import models
+from django.db import models
+import uuid
+from user.models import User
+from userProfile.models import ClientProfile
+
+class Loan(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('active', 'Active'),
+        ('closed', 'Closed'), 
+    )
+
+    PAYEE = (
+
+        ('mobile', 'mobile'),
+        ('bank account', 'Bank Account'),
+        ('credit card', 'Credit Card'),
+        ('debit card', 'Debit Card'),
+        ('loan', 'Loan'),
+    )
+
+    LOAN_TYPE = (
+
+        ('civil servant loans', 'Civil Servant Loans'),
+        ('famers loans', 'Famers Loans'),
+        ('micro business loans', 'Micro Business Loans'),
+    )
+
+
+    loan_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    client = models.ForeignKey(User, related_name='clients', on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    period = models.IntegerField()
+    purpose = models.CharField(max_length=100)
+    balance = models.FloatField()
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField(auto_now_add=True)
+    method_of_payment = models.CharField(max_length=200,choices=PAYEE)
+    loan_type = models.CharField(max_length=200,choices=LOAN_TYPE)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    approved_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.loan_id}'
+
+
+
+class LoanTransaction(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('active', 'Acctive'),
+        ('closed', 'Closed'),
+    )
+
+    TRANSCTION_TYPE = (
+        ('Disbursement', 'Disbursement,'),
+        ('Loan Repayment', 'Loan Repayment'),
+        ('Penalty', 'Penalty')
+
+    )
+
+    loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(auto_now_add=True)
+    is_payment_made = models.BooleanField()
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
+    transaction_type = models.CharField(max_length=255, choices=TRANSCTION_TYPE)
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    approved_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.loan_id}'
+
+
+class CreditScore(models.Model):
+    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    credit_score = models.BigIntegerField()
+    crb = models.BigIntegerField()
+    number_of_loan = models.BigIntegerField()
+
+
+class PaymentPosting(models.Model):
+    TRANSCTION_TYPE = (
+        ('Disbursement', 'Disbursement,'),
+        ('Loan Repayment', 'Loan Repayment'),
+        ('Penalty', 'Penalty')
+    )
+
+    client = models.ForeignKey(User, related_name='client', on_delete=models.CASCADE)
+    loan_id = models.ForeignKey(User, related_name='loans', on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(auto_now_add=True)
+    is_payment_made = models.BooleanField()
+    transaction_type = models.CharField(max_length=255, choices=TRANSCTION_TYPE)
+
+    def __str__(self):
+        return f'{self.loan_id}'
+
