@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 
 from pathlib import Path
+import dj_database_url
 from datetime import timedelta
-from django import os
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4_t&_$8)ztw^sctzpco@&(+_qf494lzb*q7_)%k(l6w^$9zxv3'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split("")
 
 
 # Application definition
@@ -83,18 +84,16 @@ WSGI_APPLICATION = 'loanlink.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-""" DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
- """
+
+database_url =os.environ.get("DATABASE_URL")
 # Replace the SQLite DATABASES configuration with PostgreSQL:
-DATABASES = {
-    'default': dj_database_url.config(   
-             
-         default='postgresql://postgres:postgres@localhost:5432/mysite', conn_max_age=600    )}
+DATABASES["default"] = dj_database_url.parse("postgres://loanlink_db_user:TEFsdPfuv7JzPEIcGfihbjyjxBLqKG7n@dpg-co7q5un79t8c73ent4rg-a.oregon-postgres.render.com/loanlink_db")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
