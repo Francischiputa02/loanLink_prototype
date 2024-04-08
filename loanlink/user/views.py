@@ -68,7 +68,8 @@ class UserLoginView(APIView):
 class ClientListViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = ClientProfile.objects.filter(is_client=True)
-        serializer = ClientListSerializer(queryset, many=True)
+        serializer_class = ClientListSerializer
+        serializer = serializer_class(queryset, many=True)
         return Response(serializer.data)
 
 class UserListViewset(viewsets.ViewSet):

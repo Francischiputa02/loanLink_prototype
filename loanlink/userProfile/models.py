@@ -14,6 +14,7 @@ class ClientProfile(models.Model):
     last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     email = models.EmailField()
+    empolyee_number = models.BigIntegerField(blank=True, null=True)
     address = models.CharField(max_length=255)
     gender = models.CharField(max_length=255, choices=GENDER, default='Male')
     date_of_birth = models.DateField(blank=True, null=True)

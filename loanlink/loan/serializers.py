@@ -27,7 +27,8 @@ class LoanSerializer(serializers.ModelSerializer):
 class CreditScoreSerializer(serializers. ModelSerializer):
     class Meta:
         model = CreditScore
-        fields = '__all__'
+        fields = ['id','credit_score','crb','number_of_loan']
+        read_only = ['id', ]
 
 
 

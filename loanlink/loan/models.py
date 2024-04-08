@@ -78,10 +78,9 @@ class LoanTransaction(models.Model):
 
 class CreditScore(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE)
-    credit_score = models.BigIntegerField()
-    crb = models.BigIntegerField()
-    number_of_loan = models.BigIntegerField()
-
+    credit_score = models.BigIntegerField(blank=True, null=True)
+    crb = models.BigIntegerField(blank=True, null=True)
+    number_of_loan = models.BigIntegerField(blank=True, null=True)
 
 class PaymentPosting(models.Model):
     TRANSCTION_TYPE = (

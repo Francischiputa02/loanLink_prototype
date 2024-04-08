@@ -22,16 +22,16 @@ class LoanListView(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, loan_id=None):
 
         def retrieve(self, request, pk=None):
-            queryset = Loan.objects.get(pk=pk)
+            queryset = Loan.objects.filter(loan__loan_id=loan_id)
             serializer_class = LoanSerializer
             serializer = serializer_class(queryset)
             return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def update(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.valid():
@@ -39,8 +39,8 @@ class LoanListView(viewsets.ViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def destroy(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.valid():
@@ -64,22 +64,22 @@ class LoanDetailView(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve(self, request, pk=None):
-        queryset = Loan.objects.ger(pk=pk)
+    def retrieve(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def update(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):
-        queryset = Loan.object.get(pk=pk)
+    def destroy(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -105,8 +105,8 @@ class ClosedLoanListViewset(viewsets.ViewSet):
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrive(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def retrive(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -121,8 +121,8 @@ class ClosedLoanListViewset(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def destroy(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -139,24 +139,24 @@ class PendingLoanListViewset(viewsets.ViewSet):
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrive(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def retrive(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def update(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def destroy(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -173,24 +173,24 @@ class RejectedLoanListViewest(viewsets.ViewSet):
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrive(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def retrive(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def update(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def destroy(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -207,16 +207,16 @@ class ApprovedLoanListView(viewsets.ViewSet):
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def retrive(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def retrive(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
+    def update(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = LoanSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -246,27 +246,27 @@ class CreditScoreSerializerViewset(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def retrieve(self, request, pk=None):
-        queryset = CreditScore.objects.get(pk=pk)
+    def retrieve(self, request, client_id=None):
+        queryset = CreditScore.objects.filter(client__id=client_id).first()
+        serializer_class = CreditScoreSerializer
+        serializer = serializer_class(queryset, data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def update(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = CreditScoreSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def update(self, request, pk=None):
-        queryset = CreditScore.objects.get(pk=pk)
+    def destroy(self, request, loan_id=None):
+        queryset = Loan.objects.filter(loan__loan_id=loan_id)
         serializer_class = CreditScoreSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def destroy(self, request, pk=None):
-        queryset = CreditScore.objects.get(pk=pk)
-        serializer_class = CreditScoreSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
