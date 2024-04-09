@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'userProfile',
     'loan',
-    'corsheaders',
+    'coresheaders',
+    'cores',
 ]
 
 
