@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'userProfile',
     'loan',
     'corsheaders',
-    'cores',
+    # 'cores',
 ]
 
 
