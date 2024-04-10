@@ -26,6 +26,9 @@ class ClientProfile(models.Model):
     bank = models.CharField(max_length=200, blank=True, null=True)
     bank_acc = models.CharField(max_length=200, blank=True, null=True)
 
+    def __str__(self):
+           return f'{self.email}'
+
     class Meta:
 	
 	    db_table = "client_profile"

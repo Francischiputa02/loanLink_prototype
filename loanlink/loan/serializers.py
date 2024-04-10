@@ -17,18 +17,18 @@ class AgentSerializer(serializers.ModelSerializer):
 
 
 class LoanSerializer(serializers.ModelSerializer):
-    #client = ClientSerializer()
-    
+    client = ClientSerializer()
+
     class Meta:
         model = Loan
         fields = '__all__'
 
 
 class CreditScoreSerializer(serializers. ModelSerializer):
+    client = ClientSerializer()
     class Meta:
         model = CreditScore
         fields = ['id','credit_score','crb','number_of_loan']
-        read_only = ['id', ]
-
+        read_only = ['id', ]    
 
 

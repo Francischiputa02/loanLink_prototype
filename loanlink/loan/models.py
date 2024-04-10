@@ -31,11 +31,15 @@ class Loan(models.Model):
 
 
     loan_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    client = models.ForeignKey(User, related_name='clients', on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientProfile, related_name='clients', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     period = models.IntegerField()
     purpose = models.CharField(max_length=100)
     balance = models.FloatField()
+    monthly_interest = models.FloatField(null=True)
+    total_interest = models.FloatField(null=True)
+    monthly_repayment = models.FloatField(null=True)
+    total_repayment = models.FloatField(null=True)
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField(auto_now_add=True)
     method_of_payment = models.CharField(max_length=200,choices=PAYEE)
