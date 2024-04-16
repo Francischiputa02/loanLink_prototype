@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from .models import Loan, CreditScore
-from .serializers import LoanSerializer, CreditScoreSerializer
+from .serializers import LoanSerializer, CreditScoreSerializer, LoanUpdateSerializer
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -87,8 +87,6 @@ class LoanDetailView(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 # Listing all activaate loans
-
-
 class ActiveLoanListViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='active')
@@ -130,8 +128,6 @@ class ClosedLoanListViewset(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # List all pending loans
-
-
 class PendingLoanListViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='pending')
@@ -164,8 +160,6 @@ class PendingLoanListViewset(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # List all rejected loans
-
-
 class RejectedLoanListViewest(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='rejected')
@@ -198,8 +192,6 @@ class RejectedLoanListViewest(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # List all approved loans
-
-
 class ApprovedLoanListView(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='approved')
@@ -231,7 +223,7 @@ class ApprovedLoanListView(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# Credit score list 
 class CreditScoreSerializerViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = CreditScore.objects.all()
@@ -270,3 +262,17 @@ class CreditScoreSerializerViewset(viewsets.ViewSet):
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoanUpdateViewSet(viewsets.ModelViewSet):
+    queryset = Loan.objects.all()
+    serializer_class = LoanUpdateSerializer
+    def approve_loan(self, request, loan_id=None):
+        try:
+            loan = Loan.objects.get(loan__loan_id=loan_id)
+            loan.status = 'approved'
+            loan.save()
+            return Response({'status': 'Loan approved successfully'})
+        except Loan.DoesNotExist:
+            return Response({'status': 'Loan not found'}, status=404)
+

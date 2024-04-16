@@ -1,11 +1,13 @@
 from django.urls import path, include
-from .views import LoanListView, ActiveLoanListViewset, PendingLoanListViewset,ClosedLoanListViewset, RejectedLoanListViewest, ApprovedLoanListView, CreditScoreSerializerViewset
+from .views import LoanListView, ActiveLoanListViewset, PendingLoanListViewset,ClosedLoanListViewset, RejectedLoanListViewest, ApprovedLoanListView, CreditScoreSerializerViewset, LoanUpdateViewSet
 
 
 urlpatterns = [
 
     path('loans/', LoanListView.as_view({'get': 'list', 'post': 'create'})),
     path('loans/<str:loan_id>', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+
+    path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
 
     path('loans/active/', ActiveLoanListViewset.as_view({'get': 'list'})),
     path('loans/<str:loan_id>', ActiveLoanListViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy' })),

@@ -32,3 +32,8 @@ class CreditScoreSerializer(serializers. ModelSerializer):
         read_only = ['id', ]    
 
 
+class LoanUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Loan
+        fields = ['loan_id', 'status']
+        read_only = ['loan_id']
