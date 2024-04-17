@@ -12,7 +12,6 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('api/', include('user.urls')),
     path('api/', include('loan.urls')),
-    path('api/clientview', include('userProfile.urls')),
     path('docs/', include_docs_urls(title='LoanlinkAPI')),
     path('schema/', get_schema_view(
         title='Loanlink API',

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import LoanListView, ActiveLoanListViewset, PendingLoanListViewset,ClosedLoanListViewset, RejectedLoanListViewest, ApprovedLoanListView, CreditScoreSerializerViewset, LoanUpdateViewSet
+from .views import LoanListView, ActiveLoanListViewset, PendingLoanListViewset,ClosedLoanListViewset, RejectedLoanListViewest, ApprovedLoanListView, CreditScoreSerializerViewset, LoanUpdateViewSet,LoanTransactionSerializerView 
 
 
 urlpatterns = [
@@ -24,7 +24,10 @@ urlpatterns = [
     path('loans/approved/', ApprovedLoanListView.as_view({'get': 'list'}), name='approvedloans'),
     path('loans/<str:loan_id>', ApprovedLoanListView.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='approvedloansid'),
 
-    path('creditscore/', CreditScoreSerializerViewset.as_view({'get': 'list', 'post': 'create'}), name='creditscore'),
+    path('creditscore/', CreditScoreSerializerViewset.as_view({'get': 'list', 'post': 'create'}), name='creditscore'), 
     path('creditscore/<str:client_id>/', CreditScoreSerializerViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='creditscoreid'),
+
+    path('transaction/',  LoanTransactionSerializerView.as_view({'get': 'list', 'post': 'create'})),
+    path('transaction/<str:loan_id>', LoanTransactionSerializerView.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='loantransactions'),
 
 ]

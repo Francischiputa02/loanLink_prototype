@@ -44,7 +44,7 @@ class Loan(models.Model):
     end_date = models.DateField(auto_now_add=True, null=True)
     method_of_payment = models.CharField(max_length=200,choices=PAYEE, null=True)
     loan_type = models.CharField(max_length=200,choices=LOAN_TYPE, null=True)
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES, null=True)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, null=True, default='pending')
     approved_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     approved_at = models.DateTimeField(blank=True, null=True)
 
@@ -55,7 +55,6 @@ class Loan(models.Model):
 
 class LoanTransaction(models.Model):
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
         ('active', 'Acctive'),
         ('closed', 'Closed'),
     )
@@ -70,7 +69,7 @@ class LoanTransaction(models.Model):
     loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
-    is_payment_made = models.BooleanField()
+    is_payment_made = models.BooleanField(default=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES)
     transaction_type = models.CharField(max_length=255, choices=TRANSCTION_TYPE)
     approved_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -97,7 +96,7 @@ class PaymentPosting(models.Model):
     loan_id = models.ForeignKey(User, related_name='loans', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
-    is_payment_made = models.BooleanField()
+    is_payment_made = models.BooleanField(default=True)
     transaction_type = models.CharField(max_length=255, choices=TRANSCTION_TYPE)
 
     def __str__(self):
