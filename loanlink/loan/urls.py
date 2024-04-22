@@ -1,6 +1,6 @@
 from django.urls import path, include
-from .views import LoanListView, ActiveLoanListViewset, PendingLoanListViewset,ClosedLoanListViewset, RejectedLoanListViewest, ApprovedLoanListView, CreditScoreSerializerViewset, LoanUpdateViewSet,LoanTransactionSerializerView 
-
+from .views import LoanListView, ActiveLoanListViewset, PendingLoanListViewset,ClosedLoanListViewset, RejectedLoanListViewest, ApprovedLoanListView, CreditScoreSerializerViewset, LoanUpdateViewSet,LoanTransactionSerializerView
+from .views import DisbursementOfFunds
 
 urlpatterns = [
 
@@ -8,6 +8,8 @@ urlpatterns = [
     path('loans/<str:loan_id>', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
     path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
+
+    path('loans/disbursement-of-funds/<uuid:loan_id>/', DisbursementOfFunds.as_view({'post': 'loan_disbursement'}), name='disbursement-of-funds'),
 
     path('loans/active/', ActiveLoanListViewset.as_view({'get': 'list'})),
     path('loans/<str:loan_id>', ActiveLoanListViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy' })),
@@ -28,6 +30,6 @@ urlpatterns = [
     path('creditscore/<str:client_id>/', CreditScoreSerializerViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='creditscoreid'),
 
     path('transaction/',  LoanTransactionSerializerView.as_view({'get': 'list', 'post': 'create'})),
-    path('transaction/<str:loan_id>', LoanTransactionSerializerView.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='loantransactions'),
+    path('transaction/<str:loan_id>', LoanTransactionSerializerView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='loan-transactions'),
 
 ]

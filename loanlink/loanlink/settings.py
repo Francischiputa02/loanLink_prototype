@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'userProfile',
     'loan',
     'corsheaders',
+    'django_crontab',
+    'checkPayment',
     # 'cores',
 ]
 
@@ -200,3 +202,8 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = "user.User"
+
+
+CRONJOBS = [
+    ('0 0 * * *', 'checkPayment.management.commands.check_loan_payments', '>> /path/to/logfile.log'),
+]

@@ -41,6 +41,7 @@ class Loan(models.Model):
     monthly_repayment = models.FloatField(null=True)
     total_repayment = models.FloatField(null=True)
     start_date = models.DateField(auto_now_add=True, null=True)
+    due_date = models.DateField(auto_now=True, null=True)
     end_date = models.DateField(auto_now_add=True, null=True)
     method_of_payment = models.CharField(max_length=200,choices=PAYEE, null=True)
     loan_type = models.CharField(max_length=200,choices=LOAN_TYPE, null=True)
@@ -57,6 +58,7 @@ class LoanTransaction(models.Model):
     STATUS_CHOICES = (
         ('active', 'Acctive'),
         ('closed', 'Closed'),
+        ('bad debt', 'Bad debt'),
     )
 
     TRANSCTION_TYPE = (
@@ -66,11 +68,11 @@ class LoanTransaction(models.Model):
 
     )
 
-    loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='loan')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
     is_payment_made = models.BooleanField(default=True)
-    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='active')
     transaction_type = models.CharField(max_length=255, choices=TRANSCTION_TYPE)
     approved_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     approved_at = models.DateTimeField(blank=True, null=True)
@@ -79,21 +81,25 @@ class LoanTransaction(models.Model):
         return f'{self.loan_id}'
 
 
+
 class CreditScore(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE)
     credit_score = models.BigIntegerField(blank=True, null=True)
     crb = models.BigIntegerField(blank=True, null=True)
     number_of_loan = models.BigIntegerField(blank=True, null=True)
 
+
+
 class PaymentPosting(models.Model):
     TRANSCTION_TYPE = (
         ('Disbursement', 'Disbursement,'),
         ('Loan Repayment', 'Loan Repayment'),
-        ('Penalty', 'Penalty')
+        ('Penalty', 'Penalty'),
+        ('bad debt', 'Bad debt'),
     )
 
-    client = models.ForeignKey(User, related_name='client', on_delete=models.CASCADE)
-    loan_id = models.ForeignKey(User, related_name='loans', on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientProfile, related_name='client', on_delete=models.CASCADE)
+    loan_id = models.ForeignKey(ClientProfile, related_name='loans', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
     is_payment_made = models.BooleanField(default=True)

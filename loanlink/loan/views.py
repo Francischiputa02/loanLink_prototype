@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from .models import Loan, CreditScore, LoanTransaction
+from datetime import datetime
+from django.core.mail import send_mail
 from .serializers import LoanSerializer, CreditScoreSerializer, LoanUpdateSerializer, LoanListSerializer, LoanTransactionSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.core.management.base import BaseCommand
 
 
 # List all the loans
@@ -353,7 +356,7 @@ class LoanTransactionSerializerView(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, loan_id=None):
-        queryset = LoanTransaction.objects.filter(loan__loan_id=loan_id).first()
+        queryset = LoanTransaction.objects.get(loan_id=loan_id)
         serializer_class = LoanTransactionSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -361,7 +364,7 @@ class LoanTransactionSerializerView(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def update(self, request, loan_id=None):
-        queryset = LoanTransaction.objects.filter(loan__loan_id=loan_id)
+        queryset = LoanTransaction.objects.filter(loan_id=loan_id)
         serializer_class = LoanTransactionSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
@@ -369,10 +372,37 @@ class LoanTransactionSerializerView(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, loan_id=None):
-        queryset = LoanTransaction.objects.filter(loan__loan_id=loan_id)
+        queryset = LoanTransaction.objects.filter(loan_id=loan_id)
         serializer_class = LoanTransactionSerializer
         serializer = serializer_class(queryset, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+class DisbursementOfFunds(viewsets.ViewSet):
+    def loan_disbursement(self, request, loan_id=None):
+        loan = Loan.objects.get(loan_id=loan_id)
+        status = loan.status
+        amount = loan.amount
+        loan_id = loan.loan_id
+        
+        if status == "approved":
+            status = "active"
+            transaction_type = 'Disbursement'
+            LoanTransaction = {
+                    'loan_id': loan_id,
+                    'amount': amount,
+                    'status': status,
+                    'transaction_type': transaction_type,
+
+                }
+                
+            transactionSerializer = LoanTransactionSerializer
+            transaction = transactionSerializer(data=LoanTransaction)
+            if transaction.is_valid():
+                transaction.save()
+                return Response({'message': 'Your loan is successfully disbursed'}, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response({'Message': 'Disbursement of funds not failed'}, status=status.HTTP_400_BAD_REQUEST)
