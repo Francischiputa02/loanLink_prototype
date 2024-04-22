@@ -65,3 +65,34 @@ class PendingLoanseriliazer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields = '__all__'
+
+
+
+class RejectedLoanseriliazer(serializers.ModelSerializer):
+    client = ClientSerializer()
+    class Meta:
+        model = Loan
+        fields = '__all__'
+
+
+class ApprovedLoanseriliazer(serializers.ModelSerializer):
+    client = ClientSerializer()
+    class Meta:
+        model = Loan
+        fields = '__all__'
+
+
+
+class ActiveLoanseriliazer(serializers.ModelSerializer):
+    client = ClientSerializer()
+    class Meta:
+        model = Loan
+        fields = '__all__'
+
+
+
+class ClosedLoanseriliazer(serializers.ModelSerializer):
+    client = ClientSerializer()
+    class Meta:
+        model = Loan
+        fields = '__all__'

@@ -4,6 +4,7 @@ from .models import Loan, CreditScore, LoanTransaction
 from datetime import datetime
 from django.core.mail import send_mail
 from .serializers import LoanSerializer, CreditScoreSerializer, LoanUpdateSerializer, LoanListSerializer, LoanTransactionSerializer, PendingLoanseriliazer
+from .serializers import RejectedLoanseriliazer, ApprovedLoanseriliazer, ActiveLoanseriliazer, ClosedLoanseriliazer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.core.management.base import BaseCommand
@@ -128,7 +129,7 @@ class LoanDetailView(viewsets.ViewSet):
 class ActiveLoanListViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='active')
-        serializer_class = LoanSerializer
+        serializer_class = ActiveLoanseriliazer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -137,7 +138,7 @@ class ActiveLoanListViewset(viewsets.ViewSet):
 class ClosedLoanListViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='closed')
-        serializer_class = LoanSerializer
+        serializer_class = ClosedLoanseriliazer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -201,7 +202,7 @@ class PendingLoanListViewset(viewsets.ViewSet):
 class RejectedLoanListViewest(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='rejected')
-        serializer_class = LoanSerializer
+        serializer_class = RejectedLoanseriliazer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -233,7 +234,7 @@ class RejectedLoanListViewest(viewsets.ViewSet):
 class ApprovedLoanListView(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='approved')
-        serializer_class = LoanSerializer
+        serializer_class = ApprovedLoanseriliazer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
