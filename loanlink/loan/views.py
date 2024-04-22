@@ -402,7 +402,7 @@ class DisbursementOfFunds(viewsets.ViewSet):
             transaction = transactionSerializer(data=LoanTransaction)
             if transaction.is_valid():
                 transaction.save()
-                return Response({'message': 'Your loan is successfully disbursed'}, status=status.HTTP_201_CREATED)
+                return Response({'message': 'Your loan is successfully disbursed'})
 
         else:
             return Response({'Message': 'Disbursement of funds not failed'}, status=status.HTTP_400_BAD_REQUEST)
