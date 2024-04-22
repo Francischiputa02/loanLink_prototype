@@ -71,6 +71,39 @@ class ClientListViewset(viewsets.ViewSet):
         serializer_class = ClientListSerializer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data)
+    
+    def create(self, request, client_id=None):
+         queryset = ClientProfile.objects.get(client_id=client_id)
+         serializer_class = ClientListSerializer
+         serializer = serializer_class(queryset, data=request.data)
+         serializer.is_valid(raise_exception=True)
+         serializer.save()
+         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def retrieve(self, request, id=None):
+        try:
+            client = ClientProfile.objects.get(id=id)
+            serializer = ClientListSerializer(client)
+            return Response(serializer.data)
+        except client.DoesNotExist:
+            return Response({"message": "Client not found"}, status=404)
+    
+    def update(self, request, id=None):
+         queryset = ClientProfile.objects.get(id=id)
+         serializer_class = ClientListSerializer
+         serializer = serializer_class(queryset, data=request.data)
+         serializer.is_valid(raise_exception=True)
+         serializer.save()
+         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, id=None):
+         queryset = ClientProfile.objects.get(id=id)
+         serializer_class = ClientListSerializer
+         serializer = serializer_class(queryset, data=request.data)
+         serializer.is_valid(raise_exception=True)
+         serializer.save()
+         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class UserListViewset(viewsets.ViewSet):
      def list(self, request):

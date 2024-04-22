@@ -63,11 +63,14 @@ class LoanListView(viewsets.ViewSet):
 
     def retrieve(self, request, loan_id=None):
 
-        def retrieve(self, request, pk=None):
+        def retrieve(self, request, loan_id=None):
             queryset = Loan.objects.filter(loan__loan_id=loan_id)
             serializer_class = LoanSerializer
             serializer = serializer_class(queryset)
-            return Response(serializer.data)
+            if serializer.is_valid():
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.data)
 
     def update(self, request, loan_id=None):
         queryset = Loan.objects.filter(loan__loan_id=loan_id)

@@ -6,5 +6,6 @@ urlpatterns = [
 	path('signup/agent/', AgentRegistrationView.as_view(),name='signup_agent'),
 	path('signin/', UserLoginView.as_view(), name='signin'),
 	path('clientlist/', ClientListViewset.as_view({'get': 'list'}), name='client-list'),
+    path('clientlist/<uuid:id>/', ClientListViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='client-list'),
 	path('userlist/', UserListViewset.as_view({'get': 'list'}), name='client-list'),
 ]
