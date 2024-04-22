@@ -64,7 +64,8 @@ class LoanTransaction(models.Model):
     TRANSCTION_TYPE = (
         ('Disbursement', 'Disbursement,'),
         ('Loan Repayment', 'Loan Repayment'),
-        ('Penalty', 'Penalty')
+        ('Penalty', 'Penalty'),
+        ('bad debt', 'Bad Debt')
 
     )
 
