@@ -58,3 +58,10 @@ class LoanTransactionSerializer(serializers.ModelSerializer):
         model = LoanTransaction
         fields = ['id','loan_id', 'amount', 'is_payment_made', 'status', 'transaction_type', 'approved_by', 'approved_at', 'date']
         read_only = ['id']
+
+
+class PendingLoanseriliazer(serializers.ModelSerializer):
+    client = ClientSerializer()
+    class Meta:
+        model = Loan
+        fields = '__all__'

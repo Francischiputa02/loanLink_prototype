@@ -3,7 +3,7 @@ from rest_framework import viewsets, status
 from .models import Loan, CreditScore, LoanTransaction
 from datetime import datetime
 from django.core.mail import send_mail
-from .serializers import LoanSerializer, CreditScoreSerializer, LoanUpdateSerializer, LoanListSerializer, LoanTransactionSerializer
+from .serializers import LoanSerializer, CreditScoreSerializer, LoanUpdateSerializer, LoanListSerializer, LoanTransactionSerializer, PendingLoanseriliazer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.core.management.base import BaseCommand
@@ -169,7 +169,7 @@ class ClosedLoanListViewset(viewsets.ViewSet):
 class PendingLoanListViewset(viewsets.ViewSet):
     def list(self, request):
         queryset = Loan.objects.filter(status='pending')
-        serializer_class = LoanSerializer
+        serializer_class = PendingLoanseriliazer
         serializer = serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
